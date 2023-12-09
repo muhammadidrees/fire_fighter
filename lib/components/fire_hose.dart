@@ -5,7 +5,7 @@ const _size = 32.0;
 
 class FireHose extends PositionComponent with HasGameRef<FireFighterGame> {
   static final _paint = Paint()..color = Colors.white;
-  final Vector2 speed = Vector2(_movementSpeed, 0);
+  final Vector2 speed = Vector2.zero();
 
   FireHose()
       : super(
