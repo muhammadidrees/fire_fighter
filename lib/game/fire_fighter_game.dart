@@ -1,6 +1,7 @@
 part of 'game.dart';
 
-class FireFighterGame extends FlameGame with TapCallbacks {
+class FireFighterGame extends FlameGame
+    with TapCallbacks, HasCollisionDetection {
   final Hose hose = Hose();
   bool isGameStarted = false;
   bool gameOver = false;
@@ -86,7 +87,7 @@ class FireFighterGame extends FlameGame with TapCallbacks {
       return false;
     }).length;
 
-    if (noOfFullGrownFires >= 1) {
+    if (noOfFullGrownFires >= 100) {
       gameOver = true;
 
       gameOverText = TextComponent(

@@ -3,7 +3,8 @@ part of 'components.dart';
 const _movementSpeed = 20.0;
 const _size = 32.0;
 
-class Hose extends PositionComponent with HasGameRef<FireFighterGame> {
+class Hose extends PositionComponent
+    with HasGameRef<FireFighterGame>, HasWorldReference {
   static final _paint = Paint()..color = Colors.white;
   final Vector2 speed = Vector2.zero();
 
@@ -15,12 +16,16 @@ class Hose extends PositionComponent with HasGameRef<FireFighterGame> {
 
   void shootWater() {
     final water = Water(
+      // Vector2(
+      //   (gameRef.size.x / 2) + position.x,
+      //   gameRef.size.y - 50 - _size / 2,
+      // ),
       Vector2(
-        (gameRef.size.x / 2) + position.x,
-        gameRef.size.y - 50 - _size / 2,
+        position.x,
+        position.y,
       ),
     );
-    gameRef.add(water);
+    world.add(water);
   }
 
   @override
