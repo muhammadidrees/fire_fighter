@@ -32,7 +32,7 @@ class FireHose extends PositionComponent with HasGameRef<FireFighterGame> {
   void update(double dt) {
     position += speed * _size * dt;
 
-    if (speed.x == 0) {
+    if (gameRef.isGameStarted && speed.x == 0) {
       shootWater();
     }
 
