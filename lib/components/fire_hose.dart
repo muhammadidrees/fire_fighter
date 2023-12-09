@@ -13,6 +13,16 @@ class FireHose extends PositionComponent with HasGameRef<FireFighterGame> {
           anchor: Anchor.center,
         );
 
+  void shootWater() {
+    final water = Water(
+      Vector2(
+        (gameRef.size.x / 2) + position.x,
+        gameRef.size.y - 50,
+      ),
+    );
+    gameRef.add(water);
+  }
+
   @override
   void render(Canvas canvas) {
     canvas.drawRect(size.toRect(), _paint);
@@ -21,6 +31,11 @@ class FireHose extends PositionComponent with HasGameRef<FireFighterGame> {
   @override
   void update(double dt) {
     position += speed * _size * dt;
+
+    if (speed.x == 0) {
+      shootWater();
+    }
+
     if (position.x > (gameRef.size.x / 2) - 50) {
       speed.x = -_movementSpeed;
     } else if (position.x < -(gameRef.size.x / 2) + 50) {
