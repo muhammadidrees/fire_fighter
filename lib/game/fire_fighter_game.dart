@@ -9,7 +9,43 @@ class FireFighterGame extends FlameGame with TapCallbacks {
     await world.add(
       hose..position = Vector2(0, (size.y / 2) - 50),
     );
+
+    Timer.periodic(const Duration(seconds: 1), (_) {
+      spawnFire();
+    });
+
     return super.onLoad();
+  }
+
+  void spawnFire() {
+    if (!isGameStarted) {
+      return;
+    }
+
+    final random = Random();
+    Vector2 position;
+    bool overlaps;
+
+    do {
+      position = Vector2(
+        random.nextDouble() * size.x,
+        random.nextDouble() * size.y - 200,
+      );
+
+      overlaps = world.children.any((component) {
+        if (component is Fire) {
+          final fire = component;
+          return fire
+              .toRect()
+              .inflate(50 - min(fire.size.x, fire.size.y))
+              .overlaps(position.toPositionedRect(Vector2.all(50)));
+        }
+        return false;
+      });
+    } while (overlaps);
+
+    final fire = Fire(position);
+    add(fire);
   }
 
   @override
