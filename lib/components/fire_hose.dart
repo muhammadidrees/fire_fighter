@@ -1,16 +1,30 @@
 part of 'components.dart';
 
-class FireHose extends PositionComponent {
-  static final _paint = Paint()..color = Colors.white;
+const _movementSpeed = 20.0;
+const _size = 32.0;
 
-  FireHose(Vector2 canvasSize) {
-    position = Vector2(canvasSize.x / 2, canvasSize.y - 80);
-    size = Vector2(50, 50);
-    anchor = Anchor.center;
-  }
+class FireHose extends PositionComponent with HasGameRef<FireFighterGame> {
+  static final _paint = Paint()..color = Colors.white;
+  final Vector2 speed = Vector2(_movementSpeed, 0);
+
+  FireHose()
+      : super(
+          size: Vector2.all(_size),
+          anchor: Anchor.center,
+        );
 
   @override
   void render(Canvas canvas) {
     canvas.drawRect(size.toRect(), _paint);
+  }
+
+  @override
+  void update(double dt) {
+    position += speed * _size * dt;
+    if (position.x > (gameRef.size.x / 2) - 50) {
+      speed.x = -_movementSpeed;
+    } else if (position.x < -(gameRef.size.x / 2) + 50) {
+      speed.x = _movementSpeed;
+    }
   }
 }
