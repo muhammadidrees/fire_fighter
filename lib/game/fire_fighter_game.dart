@@ -3,6 +3,8 @@ part of 'game.dart';
 class FireFighterGame extends FlameGame with TapCallbacks {
   final FireHose fireHose = FireHose();
 
+  bool isMovingRight = true;
+
   @override
   Future<void> onLoad() async {
     await world.add(
@@ -13,6 +15,11 @@ class FireFighterGame extends FlameGame with TapCallbacks {
 
   @override
   void onTapUp(TapUpEvent event) {
-    fireHose.speed.x = 100;
+    if (fireHose.speed.x == 0) {
+      fireHose.speed.x = isMovingRight ? 20 : -20;
+    } else {
+      isMovingRight = fireHose.speed.x > 0;
+      fireHose.speed.x = 0;
+    }
   }
 }
