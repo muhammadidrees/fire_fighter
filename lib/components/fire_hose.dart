@@ -17,7 +17,7 @@ class FireHose extends PositionComponent with HasGameRef<FireFighterGame> {
     final water = Water(
       Vector2(
         (gameRef.size.x / 2) + position.x,
-        gameRef.size.y - 50,
+        gameRef.size.y - 50 - _size / 2,
       ),
     );
     gameRef.add(water);
