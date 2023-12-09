@@ -3,11 +3,11 @@ part of 'components.dart';
 const _movementSpeed = 20.0;
 const _size = 32.0;
 
-class FireHose extends PositionComponent with HasGameRef<FireFighterGame> {
+class Hose extends PositionComponent with HasGameRef<FireFighterGame> {
   static final _paint = Paint()..color = Colors.white;
   final Vector2 speed = Vector2.zero();
 
-  FireHose()
+  Hose()
       : super(
           size: Vector2.all(_size),
           anchor: Anchor.center,

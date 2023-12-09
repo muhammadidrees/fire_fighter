@@ -1,13 +1,13 @@
 part of 'game.dart';
 
 class FireFighterGame extends FlameGame with TapCallbacks {
-  final FireHose fireHose = FireHose();
+  final Hose hose = Hose();
   bool isGameStarted = false;
 
   @override
   Future<void> onLoad() async {
     await world.add(
-      fireHose..position = Vector2(0, (size.y / 2) - 50),
+      hose..position = Vector2(0, (size.y / 2) - 50),
     );
     return super.onLoad();
   }
@@ -16,22 +16,22 @@ class FireFighterGame extends FlameGame with TapCallbacks {
   void onTapUp(TapUpEvent event) {
     // start the game if the game is not started yet
     if (!isGameStarted) {
-      fireHose.speed.x = 20;
+      hose.speed.x = 20;
       isGameStarted = true;
 
       return;
     }
 
     // if the game is started and the fire hose is not moving, do nothing
-    if (fireHose.speed.x == 0) {
+    if (hose.speed.x == 0) {
       return;
     }
 
-    final isMovingRight = fireHose.speed.x > 0;
+    final isMovingRight = hose.speed.x > 0;
 
-    fireHose.speed.x = 0;
+    hose.speed.x = 0;
     Timer(const Duration(seconds: 2), () {
-      fireHose.speed.x = isMovingRight ? 20 : -20;
+      hose.speed.x = isMovingRight ? 20 : -20;
     });
   }
 }
