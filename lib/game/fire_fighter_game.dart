@@ -1,7 +1,7 @@
 part of 'game.dart';
 
 class FireFighterGame extends FlameGame
-    with TapCallbacks, HasCollisionDetection {
+    with KeyboardEvents, HasCollisionDetection {
   final Hose hose = Hose();
   bool isGameStarted = false;
   bool gameOver = false;
@@ -100,7 +100,15 @@ class FireFighterGame extends FlameGame
   }
 
   @override
-  void onTapUp(TapUpEvent event) {
+  KeyEventResult onKeyEvent(
+    RawKeyEvent event,
+    Set<LogicalKeyboardKey> keysPressed,
+  ) {
+    // if space bar not pressed, do nothing
+    if (!keysPressed.contains(LogicalKeyboardKey.space)) {
+      return KeyEventResult.ignored;
+    }
+
     // start the game if the game is not started yet
     if (!isGameStarted) {
       hose.speed.x = 20;
@@ -111,12 +119,12 @@ class FireFighterGame extends FlameGame
       // For looping an audio file
       FlameAudio.loop('background_music.mp3');
 
-      return;
+      return KeyEventResult.handled;
     }
 
     // if the game is started and the fire hose is not moving, do nothing
     if (hose.speed.x == 0) {
-      return;
+      return KeyEventResult.ignored;
     }
 
     final isMovingRight = hose.speed.x > 0;
@@ -125,6 +133,8 @@ class FireFighterGame extends FlameGame
     Timer(const Duration(seconds: 1), () {
       hose.speed.x = isMovingRight ? 20 : -20;
     });
+
+    return KeyEventResult.handled;
   }
 
   @override

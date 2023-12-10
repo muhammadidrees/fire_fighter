@@ -54,7 +54,7 @@ class IntiailOverLayText extends StatelessWidget {
           ),
           SizedBox(height: 36),
           Text(
-            'Tap to use the hose to put out the fires',
+            'Press space to use the hose to put out the fires',
             style: TextStyle(
               color: Colors.white,
               fontSize: 14,
@@ -163,7 +163,7 @@ class _BlinkingTextState extends State<BlinkingText>
         return Opacity(
           opacity: _animationController.value,
           child: const Text(
-            'Tap to start',
+            'Press space to start',
             style: TextStyle(
               color: Colors.white,
               fontSize: 18,
