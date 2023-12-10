@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 const _instructionOverlayKey = 'instructions';
+const _gameOverOverlayKey = 'game_over';
 
 void main() {
   LicenseRegistry.addLicense(() async* {
@@ -18,6 +19,8 @@ void main() {
       overlayBuilderMap: {
         _instructionOverlayKey: (BuildContext context, Game game) =>
             const IntiailOverLayText(),
+        _gameOverOverlayKey: (BuildContext context, Game game) =>
+            const GameOverOverlay(),
       },
     ),
   );
@@ -88,6 +91,39 @@ class IntiailOverLayText extends StatelessWidget {
           SizedBox(height: 36),
 
           BlinkingText(),
+        ],
+      ),
+    );
+  }
+}
+
+class GameOverOverlay extends StatelessWidget {
+  const GameOverOverlay({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Game Over',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 32,
+              fontFamily: 'PressStart2P',
+            ),
+          ),
+          SizedBox(height: 24),
+          Text(
+            'Refresh the screen to play again :)',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontFamily: 'PressStart2P',
+            ),
+          ),
+          SizedBox(height: 8),
         ],
       ),
     );

@@ -6,7 +6,6 @@ class FireFighterGame extends FlameGame
   bool isGameStarted = false;
   bool gameOver = false;
   int noOfFullGrownFires = 0;
-  late TextComponent gameOverText;
   late TextComponent score;
 
   late FireMeter fireMeter;
@@ -144,27 +143,13 @@ class FireFighterGame extends FlameGame
 
     fireMeter.currentFires = noOfFullGrownFires;
 
-    if (noOfFullGrownFires >= 5) {
+    if (noOfFullGrownFires >= fireMeter.maxFires) {
       // some delay
       await Future.delayed(const Duration(milliseconds: 500));
 
       gameOver = true;
 
-      gameOverText = TextComponent(
-        text: 'Game Over',
-        size: Vector2.all(32),
-        textRenderer: TextPaint(
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 32,
-            fontFamily: 'PressStart2P',
-          ),
-        ),
-      )
-        ..anchor = Anchor.center
-        ..position = Vector2(0, 0);
-
-      await world.add(gameOverText);
+      overlays.add('game_over');
 
       Timer(const Duration(milliseconds: 100), pauseEngine);
     }
