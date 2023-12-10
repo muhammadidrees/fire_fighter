@@ -10,7 +10,7 @@ class FireMeter extends PositionComponent {
   FutureOr<void> onLoad() async {
     // add text component to left of fire meter
     final text = TextComponent(
-      text: 'FIRE METER',
+      text: 'Heat',
       size: Vector2.all(16),
       textRenderer: TextPaint(
         style: const TextStyle(
