@@ -32,6 +32,7 @@ class FireFighterGame extends FlameGame
       ),
     )
       ..anchor = Anchor.topRight
+      ..priority = 10
       ..position = Vector2((size.x / 2) - 50, -(size.y / 2) + 50);
 
     await world.add(score);
@@ -41,6 +42,7 @@ class FireFighterGame extends FlameGame
       currentFires: noOfFullGrownFires,
     )
       ..anchor = Anchor.topLeft
+      ..priority = 10
       ..position = Vector2(50, 50);
 
     add(fireMeter);
