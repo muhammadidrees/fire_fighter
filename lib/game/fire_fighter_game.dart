@@ -6,12 +6,11 @@ class FireFighterGame extends FlameGame
   bool isGameStarted = false;
   bool gameOver = false;
   int noOfFullGrownFires = 0;
-  late TextComponent gameOverText;
   late TextComponent score;
 
   late FireMeter fireMeter;
 
-  int _score = 0;
+  int gameScore = 0;
 
   @override
   Future<void> onLoad() async {
@@ -20,18 +19,19 @@ class FireFighterGame extends FlameGame
     );
 
     score = TextComponent(
-      text: 'SCORE: $_score',
+      text: 'SCORE: ${gameScore.toString().padLeft(5, '0')}',
       size: Vector2.all(16),
       textRenderer: TextPaint(
         style: const TextStyle(
           color: Colors.white,
           fontSize: 16,
-          fontWeight: FontWeight.bold,
           letterSpacing: 1.3,
+          fontFamily: 'PressStart2P',
         ),
       ),
     )
       ..anchor = Anchor.topRight
+      ..priority = 10
       ..position = Vector2((size.x / 2) - 50, -(size.y / 2) + 50);
 
     await world.add(score);
@@ -41,6 +41,7 @@ class FireFighterGame extends FlameGame
       currentFires: noOfFullGrownFires,
     )
       ..anchor = Anchor.topLeft
+      ..priority = 10
       ..position = Vector2(50, 50);
 
     add(fireMeter);
@@ -63,8 +64,8 @@ class FireFighterGame extends FlameGame
 
   void increaseScore() {
     if (isGameStarted && !gameOver) {
-      _score += 1;
-      score.text = 'SCORE: $_score';
+      gameScore += 1;
+      score.text = 'SCORE: ${gameScore.toString().padLeft(5, '0')}';
     }
   }
 
@@ -76,12 +77,7 @@ class FireFighterGame extends FlameGame
     Vector2 position;
     bool overlaps;
 
-    // print("size.x: ${size.x}, size.y: ${size.y}");
-
     do {
-      // spawn fire at a random position between -size.x to size.x
-      // and -size.y to 200 (above the hose) also add a buffer of 100
-      // so that the fire is not spawned at the edge of the screen
       position = Vector2(
         generatePosition(-size.x * 0.5 + 100, size.x * 0.5 - 100),
         generatePosition(-size.y * 0.5 + 300, size.y * 0.5 - 300),
@@ -109,6 +105,11 @@ class FireFighterGame extends FlameGame
     if (!isGameStarted) {
       hose.speed.x = 20;
       isGameStarted = true;
+
+      overlays.remove('instructions');
+
+      // For looping an audio file
+      FlameAudio.loop('background_music.mp3');
 
       return;
     }
@@ -140,26 +141,13 @@ class FireFighterGame extends FlameGame
 
     fireMeter.currentFires = noOfFullGrownFires;
 
-    if (noOfFullGrownFires >= 5) {
+    if (noOfFullGrownFires >= fireMeter.maxFires) {
       // some delay
       await Future.delayed(const Duration(milliseconds: 500));
 
       gameOver = true;
 
-      gameOverText = TextComponent(
-        text: 'Game Over',
-        size: Vector2.all(32),
-        textRenderer: TextPaint(
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 32,
-          ),
-        ),
-      )
-        ..anchor = Anchor.center
-        ..position = Vector2(0, 0);
-
-      await world.add(gameOverText);
+      overlays.add('game_over');
 
       Timer(const Duration(milliseconds: 100), pauseEngine);
     }

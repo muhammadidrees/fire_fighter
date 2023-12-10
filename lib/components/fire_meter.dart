@@ -7,24 +7,24 @@ class FireMeter extends PositionComponent {
   FireMeter({required this.maxFires, required this.currentFires});
 
   @override
-  FutureOr<void> onLoad() {
+  FutureOr<void> onLoad() async {
     // add text component to left of fire meter
     final text = TextComponent(
-      text: 'FIRE METER',
+      text: 'Heat',
       size: Vector2.all(16),
       textRenderer: TextPaint(
         style: const TextStyle(
           color: Colors.white,
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
+          fontSize: 14,
           letterSpacing: 1.3,
+          fontFamily: 'PressStart2P',
         ),
       ),
     )
       ..anchor = Anchor.topLeft
       ..position = Vector2(0, -24);
 
-    add(text);
+    await add(text);
 
     return super.onLoad();
   }
