@@ -11,7 +11,7 @@ class FireFighterGame extends FlameGame
 
   late FireMeter fireMeter;
 
-  int _score = 0;
+  int gameScore = 0;
 
   @override
   Future<void> onLoad() async {
@@ -20,7 +20,7 @@ class FireFighterGame extends FlameGame
     );
 
     score = TextComponent(
-      text: 'SCORE: $_score',
+      text: 'SCORE: ${gameScore.toString().padLeft(5, '0')}',
       size: Vector2.all(16),
       textRenderer: TextPaint(
         style: const TextStyle(
@@ -65,8 +65,8 @@ class FireFighterGame extends FlameGame
 
   void increaseScore() {
     if (isGameStarted && !gameOver) {
-      _score += 1;
-      score.text = 'SCORE: $_score';
+      gameScore += 1;
+      score.text = 'SCORE: ${gameScore.toString().padLeft(5, '0')}';
     }
   }
 
