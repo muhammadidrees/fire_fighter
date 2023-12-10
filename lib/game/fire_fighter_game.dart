@@ -87,7 +87,7 @@ class FireFighterGame extends FlameGame
       return false;
     }).length;
 
-    if (noOfFullGrownFires >= 100) {
+    if (noOfFullGrownFires >= 10) {
       gameOver = true;
 
       gameOverText = TextComponent(
