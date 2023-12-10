@@ -1,27 +1,41 @@
 part of 'components.dart';
 
-class Fire extends PositionComponent
+const _fireSize = 30.0;
+
+class Fire extends SpriteAnimationComponent
     with HasGameRef<FireFighterGame>, CollisionCallbacks {
-  static final _paint = Paint()..color = Colors.red;
   final Vector2 growthRate = Vector2.all(5);
 
   int hitPoints = 10;
 
   Fire(Vector2 position)
       : super(
-          size: Vector2.all(10),
+          size: Vector2(_fireSize, _fireSize + 10),
           position: position,
           anchor: Anchor.center,
         );
 
   @override
-  void onLoad() {
-    add(RectangleHitbox());
-  }
+  Future<void> onLoad() async {
+    final sprites = [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+    ].map(
+      (i) => Sprite.load(
+        'sprite_fire$i.png',
+      ),
+    );
 
-  @override
-  void render(Canvas canvas) {
-    canvas.drawRect(size.toRect(), _paint);
+    animation = SpriteAnimation.spriteList(
+      await Future.wait(sprites),
+      stepTime: 0.08,
+    );
+
+    add(RectangleHitbox());
   }
 
   @override
@@ -39,7 +53,8 @@ class Fire extends PositionComponent
 
   @override
   void update(double dt) {
-    if (size.x < 50) {
+    super.update(dt);
+    if (size.x < _fireSize * 1.5) {
       Timer(const Duration(seconds: 2), () {
         size += growthRate * dt;
       });
