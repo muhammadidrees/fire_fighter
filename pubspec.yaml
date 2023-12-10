@@ -27,6 +27,7 @@ flutter:
   assets:
     - assets/audio/
     - assets/images/
+    - assets/images/fire_truck/
 
   fonts:
     - family: PressStart2P

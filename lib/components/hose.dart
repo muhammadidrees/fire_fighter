@@ -1,9 +1,9 @@
 part of 'components.dart';
 
 const _movementSpeed = 16.0;
-const _size = 200.0;
+const _size = 60.0;
 
-class Hose extends SpriteComponent
+class Hose extends SpriteAnimationComponent
     with HasGameRef<FireFighterGame>, HasWorldReference {
   final Vector2 speed = Vector2.zero();
   late Sprite fireTruck;
@@ -11,8 +11,9 @@ class Hose extends SpriteComponent
 
   Hose()
       : super(
-          size: Vector2.all(_size),
+          size: Vector2(_size + 20, _size),
           anchor: Anchor.center,
+          priority: 2,
         );
 
   void shootWater() {
@@ -27,7 +28,18 @@ class Hose extends SpriteComponent
 
   @override
   Future<void> onLoad() async {
-    sprite = await Sprite.load('fire_truck.png');
+    final sprites = [
+      0,
+      1,
+    ].map(
+      (i) => Sprite.load(
+        'fire_truck/sprite_truck$i.png',
+      ),
+    );
+    animation = SpriteAnimation.spriteList(
+      await Future.wait(sprites),
+      stepTime: 0.1,
+    );
   }
 
   @override
@@ -49,6 +61,7 @@ class Hose extends SpriteComponent
 
   @override
   void update(double dt) {
+    super.update(dt);
     position += speed * 16 * dt;
 
     if (gameRef.isGameStarted && speed.x == 0) {
