@@ -24,5 +24,10 @@ class Water extends PositionComponent with HasGameRef<FireFighterGame> {
   @override
   void update(double dt) {
     position += speed * dt;
+
+    // if the water goes off screen, remove it
+    if (position.y < gameRef.size.y * -1) {
+      removeFromParent();
+    }
   }
 }
