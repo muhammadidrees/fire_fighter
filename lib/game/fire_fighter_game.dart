@@ -112,6 +112,8 @@ class FireFighterGame extends FlameGame
       hose.speed.x = 20;
       isGameStarted = true;
 
+      overlays.remove('instructions');
+
       return;
     }
 
