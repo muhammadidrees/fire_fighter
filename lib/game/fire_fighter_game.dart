@@ -113,6 +113,9 @@ class FireFighterGame extends FlameGame
 
       overlays.remove('instructions');
 
+      // For looping an audio file
+      FlameAudio.loop('background_music.mp3');
+
       return;
     }
 
