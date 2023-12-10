@@ -21,19 +21,28 @@ class FireFighterGame extends FlameGame
     return super.onLoad();
   }
 
+  double generatePosition(double min, double max) {
+    final random = Random();
+    return min + random.nextDouble() * (max - min);
+  }
+
   void spawnFire() {
     if (!isGameStarted) {
       return;
     }
 
-    final random = Random();
     Vector2 position;
     bool overlaps;
 
+    // print("size.x: ${size.x}, size.y: ${size.y}");
+
     do {
+      // spawn fire at a random position between -size.x to size.x
+      // and -size.y to 200 (above the hose) also add a buffer of 100
+      // so that the fire is not spawned at the edge of the screen
       position = Vector2(
-        random.nextDouble() * size.x,
-        -(random.nextDouble() * size.y) + 200,
+        generatePosition(-size.x * 0.5 + 100, size.x * 0.5 - 100),
+        generatePosition(-size.y * 0.5 + 100, size.y * 0.5 - 300),
       );
 
       overlaps = world.children.any((component) {
@@ -82,7 +91,7 @@ class FireFighterGame extends FlameGame
     noOfFullGrownFires = world.children.where((component) {
       if (component is Fire) {
         final fire = component;
-        return fire.size.x >= 50 && fire.size.y >= 50;
+        return fire.size.x >= 30 * 1.5;
       }
       return false;
     }).length;
