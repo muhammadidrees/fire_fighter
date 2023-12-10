@@ -43,9 +43,16 @@ class IntiailOverLayText extends StatelessWidget {
               fontFamily: 'PressStart2P',
             ),
           ),
+          SizedBox(height: 24),
+          Text(
+            'by @muhammadidrees',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontFamily: 'PressStart2P',
+            ),
+          ),
           SizedBox(height: 36),
-
-          // instructions
           Text(
             'Tap to use the hose to put out the fires',
             style: TextStyle(
@@ -54,9 +61,7 @@ class IntiailOverLayText extends StatelessWidget {
               fontFamily: 'PressStart2P',
             ),
           ),
-
           SizedBox(height: 8),
-
           Text(
             'Keep an eye on the heat meter',
             style: TextStyle(
@@ -65,9 +70,7 @@ class IntiailOverLayText extends StatelessWidget {
               fontFamily: 'PressStart2P',
             ),
           ),
-
           SizedBox(height: 8),
-
           Text(
             'If it gets too hot, you lose!',
             style: TextStyle(
@@ -76,9 +79,7 @@ class IntiailOverLayText extends StatelessWidget {
               fontFamily: 'PressStart2P',
             ),
           ),
-
           SizedBox(height: 24),
-
           Text(
             "Let's see how long you can keep the window cool :)",
             style: TextStyle(
@@ -87,9 +88,7 @@ class IntiailOverLayText extends StatelessWidget {
               fontFamily: 'PressStart2P',
             ),
           ),
-
           SizedBox(height: 36),
-
           BlinkingText(),
         ],
       ),
