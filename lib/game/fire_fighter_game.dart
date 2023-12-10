@@ -77,12 +77,7 @@ class FireFighterGame extends FlameGame
     Vector2 position;
     bool overlaps;
 
-    // print("size.x: ${size.x}, size.y: ${size.y}");
-
     do {
-      // spawn fire at a random position between -size.x to size.x
-      // and -size.y to 200 (above the hose) also add a buffer of 100
-      // so that the fire is not spawned at the edge of the screen
       position = Vector2(
         generatePosition(-size.x * 0.5 + 100, size.x * 0.5 - 100),
         generatePosition(-size.y * 0.5 + 300, size.y * 0.5 - 300),
