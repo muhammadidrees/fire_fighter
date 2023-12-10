@@ -8,3 +8,4 @@ import 'package:flutter/material.dart';
 part 'hose.dart';
 part 'water.dart';
 part 'fire.dart';
+part 'fire_meter.dart';

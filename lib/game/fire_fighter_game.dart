@@ -7,6 +7,11 @@ class FireFighterGame extends FlameGame
   bool gameOver = false;
   int noOfFullGrownFires = 0;
   late TextComponent gameOverText;
+  late TextComponent score;
+
+  late FireMeter fireMeter;
+
+  int _score = 0;
 
   @override
   Future<void> onLoad() async {
@@ -14,8 +19,38 @@ class FireFighterGame extends FlameGame
       hose..position = Vector2(0, (size.y / 2) - 50),
     );
 
+    score = TextComponent(
+      text: 'SCORE: $_score',
+      size: Vector2.all(16),
+      textRenderer: TextPaint(
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1.3,
+        ),
+      ),
+    )
+      ..anchor = Anchor.topRight
+      ..position = Vector2((size.x / 2) - 50, -(size.y / 2) + 50);
+
+    await world.add(score);
+
+    fireMeter = FireMeter(
+      maxFires: 5,
+      currentFires: noOfFullGrownFires,
+    )
+      ..anchor = Anchor.topLeft
+      ..position = Vector2(50, 50);
+
+    add(fireMeter);
+
     Timer.periodic(const Duration(seconds: 3), (_) {
       spawnFire();
+    });
+
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      increaseScore();
     });
 
     return super.onLoad();
@@ -24,6 +59,13 @@ class FireFighterGame extends FlameGame
   double generatePosition(double min, double max) {
     final random = Random();
     return min + random.nextDouble() * (max - min);
+  }
+
+  void increaseScore() {
+    if (isGameStarted && !gameOver) {
+      _score += 1;
+      score.text = 'SCORE: $_score';
+    }
   }
 
   void spawnFire() {
@@ -42,7 +84,7 @@ class FireFighterGame extends FlameGame
       // so that the fire is not spawned at the edge of the screen
       position = Vector2(
         generatePosition(-size.x * 0.5 + 100, size.x * 0.5 - 100),
-        generatePosition(-size.y * 0.5 + 100, size.y * 0.5 - 300),
+        generatePosition(-size.y * 0.5 + 300, size.y * 0.5 - 300),
       );
 
       overlaps = world.children.any((component) {
@@ -96,7 +138,12 @@ class FireFighterGame extends FlameGame
       return false;
     }).length;
 
-    if (noOfFullGrownFires >= 10) {
+    fireMeter.currentFires = noOfFullGrownFires;
+
+    if (noOfFullGrownFires >= 5) {
+      // some delay
+      await Future.delayed(const Duration(milliseconds: 500));
+
       gameOver = true;
 
       gameOverText = TextComponent(
