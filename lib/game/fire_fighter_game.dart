@@ -1,11 +1,17 @@
 part of 'game.dart';
 
-class FireFighterGame extends FlameGame with TapCallbacks {
+class FireFighterGame extends FlameGame
+    with TapCallbacks, HasCollisionDetection {
   final Hose hose = Hose();
   bool isGameStarted = false;
   bool gameOver = false;
   int noOfFullGrownFires = 0;
   late TextComponent gameOverText;
+  late TextComponent score;
+
+  late FireMeter fireMeter;
+
+  int _score = 0;
 
   @override
   Future<void> onLoad() async {
@@ -13,11 +19,53 @@ class FireFighterGame extends FlameGame with TapCallbacks {
       hose..position = Vector2(0, (size.y / 2) - 50),
     );
 
-    Timer.periodic(const Duration(seconds: 1), (_) {
+    score = TextComponent(
+      text: 'SCORE: $_score',
+      size: Vector2.all(16),
+      textRenderer: TextPaint(
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1.3,
+        ),
+      ),
+    )
+      ..anchor = Anchor.topRight
+      ..position = Vector2((size.x / 2) - 50, -(size.y / 2) + 50);
+
+    await world.add(score);
+
+    fireMeter = FireMeter(
+      maxFires: 5,
+      currentFires: noOfFullGrownFires,
+    )
+      ..anchor = Anchor.topLeft
+      ..position = Vector2(50, 50);
+
+    add(fireMeter);
+
+    Timer.periodic(const Duration(seconds: 3), (_) {
       spawnFire();
     });
 
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      increaseScore();
+    });
+
     return super.onLoad();
+  }
+
+  double generatePosition(double min, double max) {
+    final random = Random();
+    return min + random.nextDouble() * (max - min);
+  }
+
+  void increaseScore() {
+    if (isGameStarted && !gameOver) {
+      _score += 1;
+      score.text = 'SCORE: $_score';
+    }
   }
 
   void spawnFire() {
@@ -25,14 +73,18 @@ class FireFighterGame extends FlameGame with TapCallbacks {
       return;
     }
 
-    final random = Random();
     Vector2 position;
     bool overlaps;
 
+    // print("size.x: ${size.x}, size.y: ${size.y}");
+
     do {
+      // spawn fire at a random position between -size.x to size.x
+      // and -size.y to 200 (above the hose) also add a buffer of 100
+      // so that the fire is not spawned at the edge of the screen
       position = Vector2(
-        random.nextDouble() * size.x,
-        -(random.nextDouble() * size.y) + 200,
+        generatePosition(-size.x * 0.5 + 100, size.x * 0.5 - 100),
+        generatePosition(-size.y * 0.5 + 300, size.y * 0.5 - 300),
       );
 
       overlaps = world.children.any((component) {
@@ -69,7 +121,7 @@ class FireFighterGame extends FlameGame with TapCallbacks {
     final isMovingRight = hose.speed.x > 0;
 
     hose.speed.x = 0;
-    Timer(const Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 1), () {
       hose.speed.x = isMovingRight ? 20 : -20;
     });
   }
@@ -81,12 +133,17 @@ class FireFighterGame extends FlameGame with TapCallbacks {
     noOfFullGrownFires = world.children.where((component) {
       if (component is Fire) {
         final fire = component;
-        return fire.size.x >= 50 && fire.size.y >= 50;
+        return fire.size.x >= 30 * 1.5;
       }
       return false;
     }).length;
 
-    if (noOfFullGrownFires >= 1) {
+    fireMeter.currentFires = noOfFullGrownFires;
+
+    if (noOfFullGrownFires >= 5) {
+      // some delay
+      await Future.delayed(const Duration(milliseconds: 500));
+
       gameOver = true;
 
       gameOverText = TextComponent(

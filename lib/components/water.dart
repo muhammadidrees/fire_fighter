@@ -2,7 +2,7 @@ part of 'components.dart';
 
 class Water extends PositionComponent with HasGameRef<FireFighterGame> {
   static final _paint = Paint()..color = Colors.blue;
-  final Vector2 speed = Vector2(0, -50);
+  final Vector2 speed = Vector2(0, -160);
 
   Water(Vector2 position)
       : super(
@@ -10,6 +10,11 @@ class Water extends PositionComponent with HasGameRef<FireFighterGame> {
           position: position,
           anchor: Anchor.center,
         );
+
+  @override
+  void onLoad() {
+    add(RectangleHitbox());
+  }
 
   @override
   void render(Canvas canvas) {
