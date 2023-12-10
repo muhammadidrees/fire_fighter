@@ -40,7 +40,9 @@ class Fire extends PositionComponent
   @override
   void update(double dt) {
     if (size.x < 50) {
-      size += growthRate * dt;
+      Timer(const Duration(seconds: 2), () {
+        size += growthRate * dt;
+      });
     }
   }
 }

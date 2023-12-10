@@ -14,7 +14,7 @@ class FireFighterGame extends FlameGame
       hose..position = Vector2(0, (size.y / 2) - 50),
     );
 
-    Timer.periodic(const Duration(seconds: 1), (_) {
+    Timer.periodic(const Duration(seconds: 3), (_) {
       spawnFire();
     });
 
@@ -70,7 +70,7 @@ class FireFighterGame extends FlameGame
     final isMovingRight = hose.speed.x > 0;
 
     hose.speed.x = 0;
-    Timer(const Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 1), () {
       hose.speed.x = isMovingRight ? 20 : -20;
     });
   }
