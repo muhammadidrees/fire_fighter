@@ -26,8 +26,8 @@ class FireFighterGame extends FlameGame
         style: const TextStyle(
           color: Colors.white,
           fontSize: 16,
-          fontWeight: FontWeight.bold,
           letterSpacing: 1.3,
+          fontFamily: 'PressStart2P',
         ),
       ),
     )
@@ -153,6 +153,7 @@ class FireFighterGame extends FlameGame
           style: const TextStyle(
             color: Colors.white,
             fontSize: 32,
+            fontFamily: 'PressStart2P',
           ),
         ),
       )

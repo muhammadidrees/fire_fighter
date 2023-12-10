@@ -10,7 +10,6 @@ environment:
 dependencies:
   flame: 1.12.0
   flame_audio: 2.1.5
-  flame_bloc: 1.10.7
   flutter:
     sdk: flutter
 
@@ -28,3 +27,8 @@ flutter:
   assets:
     - assets/audio/
     - assets/images/
+
+  fonts:
+    - family: PressStart2P
+      fonts:
+        - asset: assets/font/PressStart2P-Regular.ttf
