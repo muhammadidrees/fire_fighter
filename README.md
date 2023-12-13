@@ -1,7 +1,7 @@
 # Fire Fighter :fire_engine:
 
 <a href="https://flame-engine.org">
-    <img alt="Powered by Flame" src="https://img.shields.io/badge/Powered%20by-%F0%9F%94%A5-orange.svg?style=flat-square" />
+    <img alt="Powered by Flame" src="https://img.shields.io/badge/Powered%20by-%F0%9F%94%A5-blue.svg?style=flat-square" />
 </a>
 
 A retro-style game created using [Flutter](https://flutter.dev) and [Flame](https://flame-engine.org). 
