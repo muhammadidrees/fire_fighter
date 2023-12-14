@@ -10,7 +10,8 @@ class FireFighterGame extends FlameGame
           ),
         );
 
-  final FireEngine fireEngine = FireEngine();
+  late FireEngine fireEngine;
+
   bool isGameStarted = false;
   bool gameOver = false;
   int noOfFullGrownFires = 0;
@@ -28,11 +29,17 @@ class FireFighterGame extends FlameGame
   Future<void> onLoad() async {
     final playArea = PlayArea();
 
-    await add(playArea);
+    await world.add(playArea);
 
-    await world.add(
-      fireEngine..position = Vector2(0, (size.y / 2) - 50),
+    fireEngine = FireEngine(
+      velocity: Vector2(0, 0),
+      position: Vector2(0, height / 2),
+      size: kFireEngineSize,
     );
+
+    debugMode = true;
+
+    await world.add(fireEngine);
 
     score = TextComponent(
       text: 'SCORE: ${gameScore.toString().padLeft(5, '0')}',
@@ -55,12 +62,12 @@ class FireFighterGame extends FlameGame
     fireMeter = FireMeter(
       maxFires: 5,
       currentFires: noOfFullGrownFires,
+      position: Vector2(-(size.x / 2) + 50, -(size.y / 2) + 50),
     )
       ..anchor = Anchor.topLeft
-      ..priority = 10
-      ..position = Vector2(50, 50);
+      ..priority = 10;
 
-    add(fireMeter);
+    await world.add(fireMeter);
 
     Timer.periodic(const Duration(seconds: 3), (_) {
       spawnFire();

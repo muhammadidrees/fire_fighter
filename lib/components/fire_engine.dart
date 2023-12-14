@@ -1,7 +1,6 @@
 part of 'components.dart';
 
 const _movementSpeed = 16.0;
-const _size = 60.0;
 
 class FireEngine extends SpriteAnimationComponent
     with HasGameRef<FireFighterGame>, HasWorldReference {
@@ -9,11 +8,15 @@ class FireEngine extends SpriteAnimationComponent
   late Sprite fireTruck;
   bool flipped = false;
 
-  FireEngine()
-      : super(
-          size: Vector2(_size + 20, _size),
-          anchor: Anchor.center,
-          priority: 2,
+  final Vector2 velocity;
+
+  FireEngine({
+    required this.velocity,
+    required super.position,
+    required double size,
+  }) : super(
+          size: Vector2(size * 1.4, size),
+          anchor: Anchor.bottomCenter,
         );
 
   void shootWater() {

@@ -4,7 +4,11 @@ class FireMeter extends PositionComponent {
   final int maxFires;
   int currentFires;
 
-  FireMeter({required this.maxFires, required this.currentFires});
+  FireMeter({
+    required this.maxFires,
+    required this.currentFires,
+    required super.position,
+  });
 
   @override
   FutureOr<void> onLoad() async {
