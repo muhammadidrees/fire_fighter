@@ -2,6 +2,14 @@ part of 'game.dart';
 
 class FireFighterGame extends FlameGame
     with KeyboardEvents, HasCollisionDetection {
+  FireFighterGame()
+      : super(
+          camera: CameraComponent.withFixedResolution(
+            width: kGameWidth,
+            height: kGameHeight,
+          ),
+        );
+
   final FireEngine fireEngine = FireEngine();
   bool isGameStarted = false;
   bool gameOver = false;
@@ -12,8 +20,16 @@ class FireFighterGame extends FlameGame
 
   int gameScore = 0;
 
+  double get width => size.x;
+
+  double get height => size.y;
+
   @override
   Future<void> onLoad() async {
+    final playArea = PlayArea();
+
+    await add(playArea);
+
     await world.add(
       fireEngine..position = Vector2(0, (size.y / 2) - 50),
     );

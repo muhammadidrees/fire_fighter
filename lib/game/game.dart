@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:fire_fighter/components/components.dart';
+import 'package:fire_fighter/utils/utils.dart';
 import 'package:flame/components.dart' hide Timer;
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -10,3 +11,4 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 part 'fire_fighter_game.dart';
+part 'play_area.dart';
