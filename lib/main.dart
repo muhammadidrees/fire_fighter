@@ -12,9 +12,12 @@ void main() {
     final license = await rootBundle.loadString('assets/font/OFL.txt');
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
   });
+
+  final game = FireFighterGame();
+
   runApp(
     GameWidget(
-      game: FireFighterGame(),
+      game: game,
       initialActiveOverlays: const [_instructionOverlayKey],
       overlayBuilderMap: {
         _instructionOverlayKey: (BuildContext context, Game game) =>
