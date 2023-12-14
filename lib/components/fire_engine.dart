@@ -3,13 +3,13 @@ part of 'components.dart';
 const _movementSpeed = 16.0;
 const _size = 60.0;
 
-class Hose extends SpriteAnimationComponent
+class FireEngine extends SpriteAnimationComponent
     with HasGameRef<FireFighterGame>, HasWorldReference {
   final Vector2 speed = Vector2.zero();
   late Sprite fireTruck;
   bool flipped = false;
 
-  Hose()
+  FireEngine()
       : super(
           size: Vector2(_size + 20, _size),
           anchor: Anchor.center,
@@ -46,13 +46,13 @@ class Hose extends SpriteAnimationComponent
   void render(Canvas canvas) {
     super.render(canvas);
 
-    // flip the sprite if the hose is moving to the left
+    // flip the sprite if the fireEngine is moving to the left
     if (speed.x < 0 && !flipped) {
       flipHorizontally();
       flipped = true;
     }
 
-    // flip the sprite if the hose is moving to the right
+    // flip the sprite if the fireEngine is moving to the right
     if (speed.x > 0 && flipped) {
       flipHorizontally();
       flipped = false;

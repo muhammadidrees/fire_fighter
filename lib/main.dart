@@ -54,7 +54,7 @@ class IntiailOverLayText extends StatelessWidget {
           ),
           SizedBox(height: 36),
           Text(
-            'Press space to use the hose to put out the fires',
+            'Press space to use the fireEngine to put out the fires',
             style: TextStyle(
               color: Colors.white,
               fontSize: 14,

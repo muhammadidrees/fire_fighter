@@ -2,7 +2,7 @@ part of 'game.dart';
 
 class FireFighterGame extends FlameGame
     with KeyboardEvents, HasCollisionDetection {
-  final Hose hose = Hose();
+  final FireEngine fireEngine = FireEngine();
   bool isGameStarted = false;
   bool gameOver = false;
   int noOfFullGrownFires = 0;
@@ -15,7 +15,7 @@ class FireFighterGame extends FlameGame
   @override
   Future<void> onLoad() async {
     await world.add(
-      hose..position = Vector2(0, (size.y / 2) - 50),
+      fireEngine..position = Vector2(0, (size.y / 2) - 50),
     );
 
     score = TextComponent(
@@ -111,7 +111,7 @@ class FireFighterGame extends FlameGame
 
     // start the game if the game is not started yet
     if (!isGameStarted) {
-      hose.speed.x = 20;
+      fireEngine.speed.x = 20;
       isGameStarted = true;
 
       overlays.remove('instructions');
@@ -122,16 +122,16 @@ class FireFighterGame extends FlameGame
       return KeyEventResult.handled;
     }
 
-    // if the game is started and the fire hose is not moving, do nothing
-    if (hose.speed.x == 0) {
+    // if the game is started and the fire fireEngine is not moving, do nothing
+    if (fireEngine.speed.x == 0) {
       return KeyEventResult.ignored;
     }
 
-    final isMovingRight = hose.speed.x > 0;
+    final isMovingRight = fireEngine.speed.x > 0;
 
-    hose.speed.x = 0;
+    fireEngine.speed.x = 0;
     Timer(const Duration(seconds: 1), () {
-      hose.speed.x = isMovingRight ? 20 : -20;
+      fireEngine.speed.x = isMovingRight ? 20 : -20;
     });
 
     return KeyEventResult.handled;
