@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:fire_fighter/components/components.dart';
 import 'package:fire_fighter/utils/utils.dart';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart' hide Timer;
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';

@@ -6,6 +6,7 @@ class PlayArea extends RectangleComponent
       : super(
           paint: Paint()..color = const Color(0xFF000000),
           anchor: Anchor.center,
+          children: [RectangleHitbox()],
         );
 
   @override

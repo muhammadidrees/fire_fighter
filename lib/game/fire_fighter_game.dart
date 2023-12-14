@@ -25,6 +25,14 @@ class FireFighterGame extends FlameGame
 
   double get height => size.y;
 
+  double get xMax => width / 2;
+
+  double get xMin => -width / 2;
+
+  double get yMax => height / 2;
+
+  double get yMin => -height / 2;
+
   @override
   Future<void> onLoad() async {
     final playArea = PlayArea();
@@ -32,8 +40,7 @@ class FireFighterGame extends FlameGame
     await world.add(playArea);
 
     fireEngine = FireEngine(
-      velocity: Vector2(0, 0),
-      position: Vector2(0, height / 2),
+      position: Vector2(0, yMax),
       size: kFireEngineSize,
     );
 

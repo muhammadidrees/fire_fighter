@@ -3,15 +3,12 @@ part of 'components.dart';
 const _movementSpeed = 16.0;
 
 class FireEngine extends SpriteAnimationComponent
-    with HasGameRef<FireFighterGame>, HasWorldReference {
-  final Vector2 speed = Vector2.zero();
+    with CollisionCallbacks, HasGameRef<FireFighterGame>, HasWorldReference {
+  Vector2 speed = Vector2.zero();
   late Sprite fireTruck;
   bool flipped = false;
 
-  final Vector2 velocity;
-
   FireEngine({
-    required this.velocity,
     required super.position,
     required double size,
   }) : super(
@@ -31,6 +28,12 @@ class FireEngine extends SpriteAnimationComponent
 
   @override
   Future<void> onLoad() async {
+    final hitBox = RectangleHitbox(
+      size: Vector2(width, height / 2),
+    );
+
+    add(hitBox);
+
     final sprites = [
       0,
       1,
@@ -45,36 +48,37 @@ class FireEngine extends SpriteAnimationComponent
     );
   }
 
+  void flip() {
+    flipHorizontally();
+    speed.x = -speed.x;
+  }
+
   @override
-  void render(Canvas canvas) {
-    super.render(canvas);
+  void onCollisionStart(
+    Set<Vector2> intersectionPoints,
+    PositionComponent other,
+  ) {
+    super.onCollisionStart(intersectionPoints, other);
+    if (other is PlayArea) {
+      final isCollidingWithPlayAreaHorizontalEdges =
+          intersectionPoints.first.x >= game.xMax ||
+              intersectionPoints.first.x <= game.xMin;
 
-    // flip the sprite if the fireEngine is moving to the left
-    if (speed.x < 0 && !flipped) {
-      flipHorizontally();
-      flipped = true;
-    }
-
-    // flip the sprite if the fireEngine is moving to the right
-    if (speed.x > 0 && flipped) {
-      flipHorizontally();
-      flipped = false;
+      if (isCollidingWithPlayAreaHorizontalEdges) {
+        flip();
+      }
+    } else {
+      debugPrint('collision with $other');
     }
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-    position += speed * 16 * dt;
+    position += speed * _movementSpeed * dt;
 
     if (gameRef.isGameStarted && speed.x == 0) {
       shootWater();
-    }
-
-    if (position.x > (gameRef.size.x / 2) - 50) {
-      speed.x = -_movementSpeed;
-    } else if (position.x < -(gameRef.size.x / 2) + 50) {
-      speed.x = _movementSpeed;
     }
   }
 }
