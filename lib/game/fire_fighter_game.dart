@@ -76,10 +76,6 @@ class FireFighterGame extends FlameGame
 
     await world.add(fireMeter);
 
-    Timer.periodic(const Duration(seconds: 3), (_) {
-      spawnFire();
-    });
-
     Timer.periodic(const Duration(seconds: 1), (timer) {
       increaseScore();
     });
@@ -99,36 +95,6 @@ class FireFighterGame extends FlameGame
     }
   }
 
-  void spawnFire() {
-    if (!isGameStarted) {
-      return;
-    }
-
-    Vector2 position;
-    bool overlaps;
-
-    do {
-      position = Vector2(
-        generatePosition(-size.x * 0.5 + 100, size.x * 0.5 - 100),
-        generatePosition(-size.y * 0.5 + 300, size.y * 0.5 - 300),
-      );
-
-      overlaps = world.children.any((component) {
-        if (component is Fire) {
-          final fire = component;
-          return fire
-              .toRect()
-              .inflate(50 - min(fire.size.x, fire.size.y))
-              .overlaps(position.toPositionedRect(Vector2.all(50)));
-        }
-        return false;
-      });
-    } while (overlaps);
-
-    final fire = Fire(position);
-    world.add(fire);
-  }
-
   @override
   KeyEventResult onKeyEvent(
     RawKeyEvent event,
@@ -142,6 +108,18 @@ class FireFighterGame extends FlameGame
     // start the game if the game is not started yet
     if (!isGameStarted) {
       fireEngine.speed.x = 20;
+
+      final fireSpawner = SpawnComponent(
+        factory: (_) => Fire(),
+        period: 3,
+        area: Rectangle.fromPoints(
+          Vector2(xMin + 260, yMin + 300),
+          Vector2(xMax + 260, yMax - 300),
+        ),
+      );
+
+      world.add(fireSpawner);
+
       isGameStarted = true;
 
       overlays.remove('instructions');
