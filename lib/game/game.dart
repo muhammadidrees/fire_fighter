@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:fire_fighter/components/components.dart';
 import 'package:fire_fighter/utils/utils.dart';
@@ -14,3 +13,4 @@ import 'package:flutter/services.dart';
 
 part 'fire_fighter_game.dart';
 part 'play_area.dart';
+part 'play_state.dart';
