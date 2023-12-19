@@ -2,7 +2,16 @@ part of 'game.dart';
 
 class FireFighterGame extends FlameGame
     with KeyboardEvents, HasCollisionDetection {
-  final Hose hose = Hose();
+  FireFighterGame()
+      : super(
+          camera: CameraComponent.withFixedResolution(
+            width: kGameWidth,
+            height: kGameHeight,
+          ),
+        );
+
+  late FireEngine fireEngine;
+
   bool isGameStarted = false;
   bool gameOver = false;
   int noOfFullGrownFires = 0;
@@ -12,11 +21,32 @@ class FireFighterGame extends FlameGame
 
   int gameScore = 0;
 
+  double get width => size.x;
+
+  double get height => size.y;
+
+  double get xMax => width / 2;
+
+  double get xMin => -width / 2;
+
+  double get yMax => height / 2;
+
+  double get yMin => -height / 2;
+
   @override
   Future<void> onLoad() async {
-    await world.add(
-      hose..position = Vector2(0, (size.y / 2) - 50),
+    final playArea = PlayArea();
+
+    await world.add(playArea);
+
+    fireEngine = FireEngine(
+      position: Vector2(0, yMax),
+      size: kFireEngineSize,
     );
+
+    debugMode = true;
+
+    await world.add(fireEngine);
 
     score = TextComponent(
       text: 'SCORE: ${gameScore.toString().padLeft(5, '0')}',
@@ -39,16 +69,12 @@ class FireFighterGame extends FlameGame
     fireMeter = FireMeter(
       maxFires: 5,
       currentFires: noOfFullGrownFires,
+      position: Vector2(-(size.x / 2) + 50, -(size.y / 2) + 50),
     )
       ..anchor = Anchor.topLeft
-      ..priority = 10
-      ..position = Vector2(50, 50);
+      ..priority = 10;
 
-    add(fireMeter);
-
-    Timer.periodic(const Duration(seconds: 3), (_) {
-      spawnFire();
-    });
+    await world.add(fireMeter);
 
     Timer.periodic(const Duration(seconds: 1), (timer) {
       increaseScore();
@@ -69,36 +95,6 @@ class FireFighterGame extends FlameGame
     }
   }
 
-  void spawnFire() {
-    if (!isGameStarted) {
-      return;
-    }
-
-    Vector2 position;
-    bool overlaps;
-
-    do {
-      position = Vector2(
-        generatePosition(-size.x * 0.5 + 100, size.x * 0.5 - 100),
-        generatePosition(-size.y * 0.5 + 300, size.y * 0.5 - 300),
-      );
-
-      overlaps = world.children.any((component) {
-        if (component is Fire) {
-          final fire = component;
-          return fire
-              .toRect()
-              .inflate(50 - min(fire.size.x, fire.size.y))
-              .overlaps(position.toPositionedRect(Vector2.all(50)));
-        }
-        return false;
-      });
-    } while (overlaps);
-
-    final fire = Fire(position);
-    world.add(fire);
-  }
-
   @override
   KeyEventResult onKeyEvent(
     RawKeyEvent event,
@@ -111,7 +107,19 @@ class FireFighterGame extends FlameGame
 
     // start the game if the game is not started yet
     if (!isGameStarted) {
-      hose.speed.x = 20;
+      fireEngine.speed.x = 20;
+
+      final fireSpawner = SpawnComponent(
+        factory: (_) => Fire(),
+        period: 3,
+        area: Rectangle.fromPoints(
+          Vector2(xMin + 260, yMin + 300),
+          Vector2(xMax + 260, yMax - 300),
+        ),
+      );
+
+      world.add(fireSpawner);
+
       isGameStarted = true;
 
       overlays.remove('instructions');
@@ -122,16 +130,16 @@ class FireFighterGame extends FlameGame
       return KeyEventResult.handled;
     }
 
-    // if the game is started and the fire hose is not moving, do nothing
-    if (hose.speed.x == 0) {
+    // if the game is started and the fire fireEngine is not moving, do nothing
+    if (fireEngine.speed.x == 0) {
       return KeyEventResult.ignored;
     }
 
-    final isMovingRight = hose.speed.x > 0;
+    final isMovingRight = fireEngine.speed.x > 0;
 
-    hose.speed.x = 0;
+    fireEngine.speed.x = 0;
     Timer(const Duration(seconds: 1), () {
-      hose.speed.x = isMovingRight ? 20 : -20;
+      fireEngine.speed.x = isMovingRight ? 20 : -20;
     });
 
     return KeyEventResult.handled;

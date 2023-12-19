@@ -8,7 +8,7 @@ class Fire extends SpriteAnimationComponent
 
   int hitPoints = 10;
 
-  Fire(Vector2 position)
+  Fire([Vector2? position])
       : super(
           size: Vector2(_fireSize, _fireSize + 10),
           position: position,
