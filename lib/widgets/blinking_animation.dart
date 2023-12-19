@@ -34,7 +34,7 @@ class _BlinkingTextState extends State<BlinkingText>
         return Opacity(
           opacity: _animationController.value,
           child: const Text(
-            'Press space to start',
+            'Tap to start',
             style: TextStyle(
               color: Colors.white,
               fontSize: 18,

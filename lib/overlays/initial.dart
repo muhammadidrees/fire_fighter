@@ -28,7 +28,7 @@ class IntiailOverLayText extends StatelessWidget {
           ),
           SizedBox(height: 36),
           Text(
-            'Press space to use the fireEngine to put out the fires',
+            'Tap to use the fire engine to put out the fires',
             style: TextStyle(
               color: Colors.white,
               fontSize: 14,
@@ -55,7 +55,7 @@ class IntiailOverLayText extends StatelessWidget {
           ),
           SizedBox(height: 24),
           Text(
-            "Let's see how long you can keep the window cool :)",
+            "Let's see how long you can keep the fire out :)",
             style: TextStyle(
               color: Colors.white,
               fontSize: 14,
