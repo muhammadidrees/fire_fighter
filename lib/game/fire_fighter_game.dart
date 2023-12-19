@@ -10,10 +10,11 @@ class FireFighterGame extends FlameGame
           ),
         );
 
+  final gameStateManager = GameStateManager();
   late FireEngine fireEngine;
 
-  bool isGameStarted = false;
-  bool gameOver = false;
+  // bool isGameStarted = false;
+  // bool gameOver = false;
   int noOfFullGrownFires = 0;
   late TextComponent score;
 
@@ -35,6 +36,20 @@ class FireFighterGame extends FlameGame
 
   @override
   Future<void> onLoad() async {
+    gameStateManager.onStateChange.listen((state) {
+      switch (state) {
+        case GameState.playing:
+          overlays.remove('instructions');
+          break;
+        case GameState.gameOver:
+          overlays.add('game_over');
+          break;
+
+        case GameState.welcome:
+          break;
+      }
+    });
+
     final playArea = PlayArea();
 
     await world.add(playArea);
@@ -83,13 +98,8 @@ class FireFighterGame extends FlameGame
     return super.onLoad();
   }
 
-  double generatePosition(double min, double max) {
-    final random = Random();
-    return min + random.nextDouble() * (max - min);
-  }
-
   void increaseScore() {
-    if (isGameStarted && !gameOver) {
+    if (gameStateManager.isPlaying) {
       gameScore += 1;
       score.text = 'SCORE: ${gameScore.toString().padLeft(5, '0')}';
     }
@@ -106,7 +116,7 @@ class FireFighterGame extends FlameGame
     }
 
     // start the game if the game is not started yet
-    if (!isGameStarted) {
+    if (gameStateManager.isWelcome) {
       fireEngine.speed.x = 20;
 
       final fireSpawner = SpawnComponent(
@@ -120,9 +130,7 @@ class FireFighterGame extends FlameGame
 
       world.add(fireSpawner);
 
-      isGameStarted = true;
-
-      overlays.remove('instructions');
+      gameStateManager.state = GameState.playing;
 
       // For looping an audio file
       FlameAudio.loop('background_music.mp3');
@@ -163,9 +171,7 @@ class FireFighterGame extends FlameGame
       // some delay
       await Future.delayed(const Duration(milliseconds: 500));
 
-      gameOver = true;
-
-      overlays.add('game_over');
+      gameStateManager.state = GameState.gameOver;
 
       Timer(const Duration(milliseconds: 100), pauseEngine);
     }

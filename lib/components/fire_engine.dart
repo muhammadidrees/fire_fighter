@@ -77,7 +77,7 @@ class FireEngine extends SpriteAnimationComponent
     super.update(dt);
     position += speed * _movementSpeed * dt;
 
-    if (gameRef.isGameStarted && speed.x == 0) {
+    if (gameRef.gameStateManager.isPlaying && speed.x == 0) {
       shootWater();
     }
   }
