@@ -13,8 +13,6 @@ class FireFighterGame extends FlameGame
   final gameStateManager = GameStateManager();
   late FireEngine fireEngine;
 
-  // bool isGameStarted = false;
-  // bool gameOver = false;
   int noOfFullGrownFires = 0;
   late TextComponent score;
 
