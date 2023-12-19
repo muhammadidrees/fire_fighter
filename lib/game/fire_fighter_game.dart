@@ -1,7 +1,7 @@
 part of 'game.dart';
 
 class FireFighterGame extends FlameGame
-    with KeyboardEvents, HasCollisionDetection {
+    with TapCallbacks, HasCollisionDetection {
   FireFighterGame()
       : super(
           camera: CameraComponent.withFixedResolution(
@@ -104,14 +104,8 @@ class FireFighterGame extends FlameGame
   }
 
   @override
-  KeyEventResult onKeyEvent(
-    RawKeyEvent event,
-    Set<LogicalKeyboardKey> keysPressed,
-  ) {
-    // if space bar not pressed, do nothing
-    if (!keysPressed.contains(LogicalKeyboardKey.space)) {
-      return KeyEventResult.ignored;
-    }
+  void onTapDown(TapDownEvent event) {
+    super.onTapDown(event);
 
     // start the game if the game is not started yet
     if (gameStateManager.isWelcome) {
@@ -133,12 +127,12 @@ class FireFighterGame extends FlameGame
       // For looping an audio file
       FlameAudio.loop('background_music.mp3');
 
-      return KeyEventResult.handled;
+      return;
     }
 
     // if the game is started and the fire fireEngine is not moving, do nothing
     if (fireEngine.speed.x == 0) {
-      return KeyEventResult.ignored;
+      return;
     }
 
     final isMovingRight = fireEngine.speed.x > 0;
@@ -148,7 +142,7 @@ class FireFighterGame extends FlameGame
       fireEngine.speed.x = isMovingRight ? 20 : -20;
     });
 
-    return KeyEventResult.handled;
+    return;
   }
 
   @override
