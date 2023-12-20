@@ -89,8 +89,6 @@ class FireFighterGame extends FlameGame
       size: kFireEngineSize,
     );
 
-    debugMode = true;
-
     await world.add(fireEngine);
 
     gameScore = 0;
