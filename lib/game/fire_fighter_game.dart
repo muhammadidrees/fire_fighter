@@ -1,7 +1,7 @@
 part of 'game.dart';
 
 class FireFighterGame extends FlameGame
-    with TapCallbacks, HasCollisionDetection {
+    with TapDetector, HasCollisionDetection {
   FireFighterGame()
       : super(
           camera: CameraComponent.withFixedResolution(
@@ -150,8 +150,8 @@ class FireFighterGame extends FlameGame
   }
 
   @override
-  Future<void> onTapDown(TapDownEvent event) async {
-    super.onTapDown(event);
+  Future<void> onTap() async {
+    super.onTap();
 
     if (gameStateManager.isGameOver) {
       await setupGame();
