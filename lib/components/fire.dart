@@ -52,10 +52,8 @@ class Fire extends SpriteAnimationComponent
   @override
   void update(double dt) {
     super.update(dt);
-    if (size.x < kFireSize * 1.5) {
-      Timer(const Duration(seconds: 2), () {
-        size += growthRate * dt;
-      });
+    if (size.x < kFireSize * 1.6) {
+      size += growthRate * dt;
     }
   }
 }

@@ -187,7 +187,7 @@ class FireFighterGame extends FlameGame
     noOfFullGrownFires = world.children.where((component) {
       if (component is Fire) {
         final fire = component;
-        return fire.size.x >= 30 * 1.5;
+        return fire.size.x >= kFireSize * 1.5;
       }
       return false;
     }).length;
