@@ -14,6 +14,7 @@ class FireEngine extends SpriteAnimationComponent
   }) : super(
           size: Vector2(size * 1.4, size),
           anchor: Anchor.bottomCenter,
+          priority: 10,
         );
 
   void shootWater() {
