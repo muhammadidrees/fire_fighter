@@ -10,6 +10,8 @@ In this game, you play as a fire fighter who has to extinguish fires before they
 
 This game was originally created during Flame Jam 3. The original version can be found in the `v0.1.0.flame-jam3.0` tag.
 
+You can play the game on [itch.io](https://muhammadidrees.itch.io/fire-fighter).
+
 ## How To Play :video_game:
 
 The trucks moves left and right automatically. You can control the water hose by tapping. The heat meter shows the current heat level of the fire. The player has to put out the fire before the heat meter reaches 100%. As the game progresses, the speed of the fire truck increases.
