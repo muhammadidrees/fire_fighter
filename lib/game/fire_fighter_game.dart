@@ -38,6 +38,7 @@ class FireFighterGame extends FlameGame
       switch (state) {
         case GameState.playing:
           overlays.remove('instructions');
+          overlays.remove('game_over');
           break;
         case GameState.gameOver:
           overlays.add('game_over');
@@ -51,6 +52,31 @@ class FireFighterGame extends FlameGame
     final playArea = PlayArea();
 
     await world.add(playArea);
+
+    await setupGame();
+
+    return super.onLoad();
+  }
+
+  void increaseScore() {
+    if (gameStateManager.isPlaying) {
+      gameScore += 1;
+      score.text = 'SCORE: ${gameScore.toString().padLeft(5, '0')}';
+    }
+  }
+
+  Future<void> setupGame() async {
+    if (gameStateManager.isPlaying) {
+      return;
+    }
+
+    world.removeAll(world.children.query<Fire>());
+    world.removeAll(world.children.query<FireEngine>());
+    world.removeAll(world.children.query<Water>());
+    world.removeAll(world.children.query<SpawnComponent>());
+    world.removeAll(world.children.query<SpawnComponent>());
+    world.removeAll(world.children.query<TextComponent>());
+    world.removeAll(world.children.query<FireMeter>());
 
     fireEngine = FireEngine(
       position: Vector2(0, yMax),
@@ -92,41 +118,43 @@ class FireFighterGame extends FlameGame
     Timer.periodic(const Duration(seconds: 1), (timer) {
       increaseScore();
     });
-
-    return super.onLoad();
   }
 
-  void increaseScore() {
-    if (gameStateManager.isPlaying) {
-      gameScore += 1;
-      score.text = 'SCORE: ${gameScore.toString().padLeft(5, '0')}';
-    }
+  void startGame() {
+    resumeEngine();
+
+    fireEngine.speed.x = 20;
+
+    final fireSpawner = SpawnComponent(
+      factory: (_) => Fire(),
+      period: 3.0,
+      area: Rectangle.fromPoints(
+        Vector2(xMin + kFireEngineSize * 1.5, yMin + kFireEngineSize * 2),
+        Vector2(xMax - kFireEngineSize * 1.5, yMax - kFireEngineSize * 3),
+      ),
+    );
+
+    world.add(fireSpawner);
+
+    gameStateManager.state = GameState.playing;
+
+    // For looping an audio file
+    FlameAudio.loop('background_music.mp3');
   }
 
   @override
-  void onTapDown(TapDownEvent event) {
+  Future<void> onTapDown(TapDownEvent event) async {
     super.onTapDown(event);
+
+    if (gameStateManager.isGameOver) {
+      await setupGame();
+      startGame();
+      return;
+    }
 
     // start the game if the game is not started yet
     if (gameStateManager.isWelcome) {
-      fireEngine.speed.x = 20;
-
-      final fireSpawner = SpawnComponent(
-        factory: (_) => Fire(),
-        period: 3.0,
-        area: Rectangle.fromPoints(
-          Vector2(xMin + kFireEngineSize * 1.5, yMin + kFireEngineSize * 2),
-          Vector2(xMax - kFireEngineSize * 1.5, yMax - kFireEngineSize * 3),
-        ),
-      );
-
-      world.add(fireSpawner);
-
-      gameStateManager.state = GameState.playing;
-
-      // For looping an audio file
-      FlameAudio.loop('background_music.mp3');
-
+      startGame();
       return;
     }
 
