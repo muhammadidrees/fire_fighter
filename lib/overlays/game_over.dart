@@ -41,7 +41,7 @@ class GameOverOverlay extends StatelessWidget {
           ),
           SizedBox(height: 24),
           Text(
-            'Refresh the screen to play again :)',
+            'Tap to play again :)',
             style: TextStyle(
               color: Colors.white,
               fontSize: 14,

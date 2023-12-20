@@ -13,6 +13,8 @@ class FireFighterGame extends FlameGame
   final gameStateManager = GameStateManager();
   late FireEngine fireEngine;
 
+  AudioPlayer? backgroundMusic;
+
   int noOfFullGrownFires = 0;
   late TextComponent score;
 
@@ -55,6 +57,10 @@ class FireFighterGame extends FlameGame
 
     await setupGame();
 
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      increaseScore();
+    });
+
     return super.onLoad();
   }
 
@@ -87,6 +93,8 @@ class FireFighterGame extends FlameGame
 
     await world.add(fireEngine);
 
+    gameScore = 0;
+
     score = TextComponent(
       text: 'SCORE: ${gameScore.toString().padLeft(5, '0')}',
       size: Vector2.all(16),
@@ -114,13 +122,9 @@ class FireFighterGame extends FlameGame
       ..priority = 10;
 
     await world.add(fireMeter);
-
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      increaseScore();
-    });
   }
 
-  void startGame() {
+  Future<void> startGame() async {
     resumeEngine();
 
     fireEngine.speed.x = 20;
@@ -138,8 +142,11 @@ class FireFighterGame extends FlameGame
 
     gameStateManager.state = GameState.playing;
 
-    // For looping an audio file
-    FlameAudio.loop('background_music.mp3');
+    if (backgroundMusic?.state != PlayerState.playing) {
+      backgroundMusic = await FlameAudio.loop('background_music.mp3');
+    } else {
+      backgroundMusic?.seek(Duration.zero);
+    }
   }
 
   @override
