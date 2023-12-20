@@ -1,8 +1,22 @@
-# 0.1.0.flamejam3.0
+# v0.1.0
+
+Improved version of the game submitted to [Flame Jam 3](https://itch.io/jam/flame-jam-3)
+
+## Features :sparkles:
+- Changed input to use tap instead of space bar to make it easier to play on mobile
+- Added restart functionality
+- Used `SpawnComponent` instead of manually spawning the fire
+- Added game states
+
+## Bug Fixes :bug:
+- Made game responsive to screen size
+
+
+# v0.1.0.flame-jam3.0
 
 Initial version of the game submitted to [Flame Jam 3](https://itch.io/jam/flame-jam-3)
 
-## Features
+## Features :sparkles:
 - Contains a simple game with a player (fire truck) and a fire
 - Fire truck moves left and right while the fire appears at random positions
 - The player has to extinguish the fire by spraying water on it by pressing the space bar
