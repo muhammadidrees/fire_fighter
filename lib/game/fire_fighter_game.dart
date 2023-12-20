@@ -1,7 +1,7 @@
 part of 'game.dart';
 
 class FireFighterGame extends FlameGame
-    with TapCallbacks, HasCollisionDetection {
+    with TapDetector, HasCollisionDetection {
   FireFighterGame()
       : super(
           camera: CameraComponent.withFixedResolution(
@@ -12,6 +12,8 @@ class FireFighterGame extends FlameGame
 
   final gameStateManager = GameStateManager();
   late FireEngine fireEngine;
+
+  AudioPlayer? backgroundMusic;
 
   int noOfFullGrownFires = 0;
   late TextComponent score;
@@ -38,6 +40,7 @@ class FireFighterGame extends FlameGame
       switch (state) {
         case GameState.playing:
           overlays.remove('instructions');
+          overlays.remove('game_over');
           break;
         case GameState.gameOver:
           overlays.add('game_over');
@@ -52,6 +55,35 @@ class FireFighterGame extends FlameGame
 
     await world.add(playArea);
 
+    await setupGame();
+
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      increaseScore();
+    });
+
+    return super.onLoad();
+  }
+
+  void increaseScore() {
+    if (gameStateManager.isPlaying) {
+      gameScore += 1;
+      score.text = 'SCORE: ${gameScore.toString().padLeft(5, '0')}';
+    }
+  }
+
+  Future<void> setupGame() async {
+    if (gameStateManager.isPlaying) {
+      return;
+    }
+
+    world.removeAll(world.children.query<Fire>());
+    world.removeAll(world.children.query<FireEngine>());
+    world.removeAll(world.children.query<Water>());
+    world.removeAll(world.children.query<SpawnComponent>());
+    world.removeAll(world.children.query<SpawnComponent>());
+    world.removeAll(world.children.query<TextComponent>());
+    world.removeAll(world.children.query<FireMeter>());
+
     fireEngine = FireEngine(
       position: Vector2(0, yMax),
       size: kFireEngineSize,
@@ -60,6 +92,8 @@ class FireFighterGame extends FlameGame
     debugMode = true;
 
     await world.add(fireEngine);
+
+    gameScore = 0;
 
     score = TextComponent(
       text: 'SCORE: ${gameScore.toString().padLeft(5, '0')}',
@@ -88,45 +122,46 @@ class FireFighterGame extends FlameGame
       ..priority = 10;
 
     await world.add(fireMeter);
-
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      increaseScore();
-    });
-
-    return super.onLoad();
   }
 
-  void increaseScore() {
-    if (gameStateManager.isPlaying) {
-      gameScore += 1;
-      score.text = 'SCORE: ${gameScore.toString().padLeft(5, '0')}';
+  Future<void> startGame() async {
+    resumeEngine();
+
+    fireEngine.speed.x = 20;
+
+    final fireSpawner = SpawnComponent(
+      factory: (_) => Fire(),
+      period: 3.0,
+      area: Rectangle.fromPoints(
+        Vector2(xMin + kFireEngineSize * 1.5, yMin + kFireEngineSize * 2),
+        Vector2(xMax - kFireEngineSize * 1.5, yMax - kFireEngineSize * 3),
+      ),
+    );
+
+    world.add(fireSpawner);
+
+    gameStateManager.state = GameState.playing;
+
+    if (backgroundMusic?.state != PlayerState.playing) {
+      backgroundMusic = await FlameAudio.loop('background_music.mp3');
+    } else {
+      backgroundMusic?.seek(Duration.zero);
     }
   }
 
   @override
-  void onTapDown(TapDownEvent event) {
-    super.onTapDown(event);
+  Future<void> onTap() async {
+    super.onTap();
+
+    if (gameStateManager.isGameOver) {
+      await setupGame();
+      startGame();
+      return;
+    }
 
     // start the game if the game is not started yet
     if (gameStateManager.isWelcome) {
-      fireEngine.speed.x = 20;
-
-      final fireSpawner = SpawnComponent(
-        factory: (_) => Fire(),
-        period: 3.0,
-        area: Rectangle.fromPoints(
-          Vector2(xMin + kFireEngineSize * 1.5, yMin + kFireEngineSize * 2),
-          Vector2(xMax - kFireEngineSize * 1.5, yMax - kFireEngineSize * 3),
-        ),
-      );
-
-      world.add(fireSpawner);
-
-      gameStateManager.state = GameState.playing;
-
-      // For looping an audio file
-      FlameAudio.loop('background_music.mp3');
-
+      startGame();
       return;
     }
 
@@ -152,7 +187,7 @@ class FireFighterGame extends FlameGame
     noOfFullGrownFires = world.children.where((component) {
       if (component is Fire) {
         final fire = component;
-        return fire.size.x >= 30 * 1.5;
+        return fire.size.x >= kFireSize * 1.5;
       }
       return false;
     }).length;

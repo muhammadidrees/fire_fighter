@@ -63,7 +63,7 @@ class IntiailOverLayText extends StatelessWidget {
             ),
           ),
           SizedBox(height: 36),
-          BlinkingText(),
+          BlinkingText('Tap to start'),
         ],
       ),
     );
