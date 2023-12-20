@@ -1,7 +1,5 @@
 part of 'components.dart';
 
-const _fireSize = 30.0;
-
 class Fire extends SpriteAnimationComponent
     with HasGameRef<FireFighterGame>, CollisionCallbacks {
   final Vector2 growthRate = Vector2.all(5);
@@ -10,7 +8,7 @@ class Fire extends SpriteAnimationComponent
 
   Fire([Vector2? position])
       : super(
-          size: Vector2(_fireSize, _fireSize + 10),
+          size: Vector2(kFireSize, kFireSize + 10),
           position: position,
           anchor: Anchor.center,
         );
@@ -54,7 +52,7 @@ class Fire extends SpriteAnimationComponent
   @override
   void update(double dt) {
     super.update(dt);
-    if (size.x < _fireSize * 1.5) {
+    if (size.x < kFireSize * 1.5) {
       Timer(const Duration(seconds: 2), () {
         size += growthRate * dt;
       });

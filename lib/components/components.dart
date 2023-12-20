@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:fire_fighter/game/game.dart';
+import 'package:fire_fighter/utils/utils.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart' hide Timer;
 import 'package:flutter/material.dart';

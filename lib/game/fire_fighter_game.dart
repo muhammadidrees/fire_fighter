@@ -113,10 +113,10 @@ class FireFighterGame extends FlameGame
 
       final fireSpawner = SpawnComponent(
         factory: (_) => Fire(),
-        period: 3,
+        period: 3.0,
         area: Rectangle.fromPoints(
-          Vector2(xMin + 260, yMin + 300),
-          Vector2(xMax + 260, yMax - 300),
+          Vector2(xMin + kFireEngineSize * 1.5, yMin + kFireEngineSize * 2),
+          Vector2(xMax - kFireEngineSize * 1.5, yMax - kFireEngineSize * 3),
         ),
       );
 
