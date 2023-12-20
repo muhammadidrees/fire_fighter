@@ -21,7 +21,7 @@ class FireEngine extends SpriteAnimationComponent
     final water = Water(
       Vector2(
         position.x,
-        position.y,
+        position.y - (height / 2),
       ),
     );
     world.add(water);
