@@ -40,14 +40,7 @@ class GameOverOverlay extends StatelessWidget {
             ),
           ),
           SizedBox(height: 24),
-          Text(
-            'Tap to play again :)',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontFamily: 'PressStart2P',
-            ),
-          ),
+          BlinkingText('Tap to play again :)'),
           SizedBox(height: 8),
         ],
       ),

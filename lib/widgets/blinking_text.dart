@@ -1,7 +1,9 @@
 part of 'widgets.dart';
 
 class BlinkingText extends StatefulWidget {
-  const BlinkingText({super.key});
+  const BlinkingText(this.text, {super.key});
+
+  final String text;
 
   @override
   State<BlinkingText> createState() => _BlinkingTextState();
@@ -33,9 +35,9 @@ class _BlinkingTextState extends State<BlinkingText>
       builder: (BuildContext context, Widget? child) {
         return Opacity(
           opacity: _animationController.value,
-          child: const Text(
-            'Tap to start',
-            style: TextStyle(
+          child: Text(
+            widget.text,
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
               fontFamily: 'PressStart2P',

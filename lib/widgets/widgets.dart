@@ -1,3 +1,3 @@
 import 'package:flutter/material.dart';
 
-part 'blinking_animation.dart';
+part 'blinking_text.dart';
