@@ -1,6 +1,14 @@
+# v0.1.1
+
+Fixed tap gesture for better gameplay.
+
+## Bug Fixes :bug:
+- Changed `onTap` to `onTapDown` to improve gameplay
+
+
 # v0.1.0
 
-Improved version of the game submitted to [Flame Jam 3](https://itch.io/jam/flame-jam-3)
+Improved version of the game submitted to [Flame Jam 3](https://itch.io/jam/flame-jam-3) focusing on mobile supoort.
 
 ## Features :sparkles:
 - Changed input to use tap instead of space bar to make it easier to play on mobile
