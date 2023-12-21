@@ -148,8 +148,8 @@ class FireFighterGame extends FlameGame
   }
 
   @override
-  Future<void> onTap() async {
-    super.onTap();
+  Future<void> onTapDown(TapDownInfo info) async {
+    super.onTapDown(info);
 
     if (gameStateManager.isGameOver) {
       await setupGame();
