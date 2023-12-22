@@ -16,10 +16,10 @@ class ImageAssets {
       ];
 
   List<String> get fireEngineAnimation =>
-      List.generate(2, (i) => 'fire_engine/sprite_engine$i.png');
+      List.generate(2, (i) => 'images/fire_engine/sprite_engine$i.png');
 
   List<String> get fireAnimation =>
-      List.generate(6, (i) => 'fire/sprite_fire$i.png');
+      List.generate(6, (i) => 'images/fire/sprite_fire$i.png');
 }
 
 class AudioAssets {
@@ -29,5 +29,5 @@ class AudioAssets {
         background,
       ];
 
-  String get background => 'background_music.mp3';
+  String get background => 'audio/background_music.mp3';
 }
