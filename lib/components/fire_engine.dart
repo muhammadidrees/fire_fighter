@@ -40,7 +40,7 @@ class FireEngine extends SpriteAnimationComponent
       1,
     ].map(
       (i) => Sprite.load(
-        'fire_truck/sprite_truck$i.png',
+        'fire_engine/sprite_engine$i.png',
       ),
     );
     animation = SpriteAnimation.spriteList(

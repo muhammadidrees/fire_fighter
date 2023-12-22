@@ -24,7 +24,7 @@ class Fire extends SpriteAnimationComponent
       5,
     ].map(
       (i) => Sprite.load(
-        'sprite_fire$i.png',
+        'fire/sprite_fire$i.png',
       ),
     );
 
