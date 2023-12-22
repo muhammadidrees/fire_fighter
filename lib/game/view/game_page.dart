@@ -14,15 +14,17 @@ class GamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GameWidget(
-      game: FireFighterGame(),
-      initialActiveOverlays: const [_instructionOverlayKey],
-      overlayBuilderMap: {
-        _instructionOverlayKey: (BuildContext context, Game game) =>
-            const IntiailOverLayText(),
-        _gameOverOverlayKey: (BuildContext context, Game game) =>
-            const GameOverOverlay(),
-      },
+    return Material(
+      child: GameWidget(
+        game: FireFighterGame(),
+        initialActiveOverlays: const [_instructionOverlayKey],
+        overlayBuilderMap: {
+          _instructionOverlayKey: (BuildContext context, Game game) =>
+              const IntiailOverLayText(),
+          _gameOverOverlayKey: (BuildContext context, Game game) =>
+              const GameOverOverlay(),
+        },
+      ),
     );
   }
 }
