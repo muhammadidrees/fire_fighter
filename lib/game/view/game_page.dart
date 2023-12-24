@@ -16,7 +16,9 @@ class GamePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: GameWidget(
-        game: FireFighterGame(),
+        game: FireFighterGame(
+          context.read<LoadingCubit>().audio,
+        ),
         initialActiveOverlays: const [_instructionOverlayKey],
         overlayBuilderMap: {
           _instructionOverlayKey: (BuildContext context, Game game) =>
