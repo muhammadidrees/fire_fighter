@@ -4,6 +4,7 @@ class FireFighterGame extends FlameGame
     with TapDetector, HasCollisionDetection {
   FireFighterGame(
     AudioCache audioCache,
+    Images images,
   )   : bgm = Bgm(audioCache: audioCache),
         super(
           camera: CameraComponent.withFixedResolution(
@@ -11,11 +12,7 @@ class FireFighterGame extends FlameGame
             height: kGameHeight,
           ),
         ) {
-    images.prefix = '';
-
-    audioCache.loadedFiles.forEach((key, value) {
-      debugPrint('Audio file: $key');
-    });
+    this.images = images;
   }
 
   final gameStateManager = GameStateManager();
@@ -66,7 +63,13 @@ class FireFighterGame extends FlameGame
 
     await world.add(playArea);
 
-    await images.loadAllImages();
+    // for (final image in Assets.images.fireAnimation) {
+    //   final hasImage =
+    //       images.containsKey(Assets.images.fireEngineAnimation.first);
+    //   debugPrint('hasImage: $hasImage - $image');
+    // }
+
+    // await images.loadAllImages();
 
     await setupGame();
 

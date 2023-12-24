@@ -18,6 +18,7 @@ class GamePage extends StatelessWidget {
       child: GameWidget(
         game: FireFighterGame(
           context.read<LoadingCubit>().audio,
+          context.read<LoadingCubit>().images,
         ),
         initialActiveOverlays: const [_instructionOverlayKey],
         overlayBuilderMap: {
