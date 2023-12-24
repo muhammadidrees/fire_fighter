@@ -8,7 +8,9 @@ class FireFighterGame extends FlameGame
             width: kGameWidth,
             height: kGameHeight,
           ),
-        );
+        ) {
+    images.prefix = '';
+  }
 
   final gameStateManager = GameStateManager();
   late FireEngine fireEngine;
@@ -54,6 +56,8 @@ class FireFighterGame extends FlameGame
     final playArea = PlayArea();
 
     await world.add(playArea);
+
+    await images.loadAllImages();
 
     await setupGame();
 

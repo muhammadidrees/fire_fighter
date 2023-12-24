@@ -35,16 +35,16 @@ class FireEngine extends SpriteAnimationComponent
 
     add(hitBox);
 
-    final sprites = [
-      0,
-      1,
-    ].map(
-      (i) => Sprite.load(
-        'fire_engine/sprite_engine$i.png',
-      ),
-    );
+    final sprites = Assets.images.fireEngineAnimation
+        .map(
+          (path) => Sprite(
+            gameRef.images.fromCache(path),
+          ),
+        )
+        .toList();
+
     animation = SpriteAnimation.spriteList(
-      await Future.wait(sprites),
+      sprites,
       stepTime: 0.1,
     );
   }

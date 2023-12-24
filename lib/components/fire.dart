@@ -15,21 +15,16 @@ class Fire extends SpriteAnimationComponent
 
   @override
   Future<void> onLoad() async {
-    final sprites = [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-    ].map(
-      (i) => Sprite.load(
-        'fire/sprite_fire$i.png',
-      ),
-    );
+    final sprite = Assets.images.fireAnimation
+        .map(
+          (path) => Sprite(
+            gameRef.images.fromCache(path),
+          ),
+        )
+        .toList();
 
     animation = SpriteAnimation.spriteList(
-      await Future.wait(sprites),
+      sprite,
       stepTime: 0.08,
     );
 
