@@ -21,8 +21,6 @@ class FireFighterGame extends FlameGame
 
   final Bgm bgm;
 
-  AudioPlayer? backgroundMusic;
-
   int noOfFullGrownFires = 0;
   late TextComponent score;
 
@@ -62,14 +60,6 @@ class FireFighterGame extends FlameGame
     final playArea = PlayArea();
 
     await world.add(playArea);
-
-    // for (final image in Assets.images.fireAnimation) {
-    //   final hasImage =
-    //       images.containsKey(Assets.images.fireEngineAnimation.first);
-    //   debugPrint('hasImage: $hasImage - $image');
-    // }
-
-    // await images.loadAllImages();
 
     await setupGame();
 
