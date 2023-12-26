@@ -1,3 +1,14 @@
+# v0.2.0-dev.0
+
+Performance improvements and assets optimization.
+
+## Features :sparkles:
+- Added loading screen
+- Preload assets to improve performance
+
+## Bug Fixes :bug:
+- Fixed bug where screen freezes while playing
+
 # v0.1.1
 
 Fixed tap gesture for better gameplay.
