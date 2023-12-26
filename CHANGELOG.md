@@ -7,7 +7,7 @@ Performance improvements and assets optimization.
 - Preload assets to improve performance
 
 ## Bug Fixes :bug:
-- Fixed bug where screen freezes while playing
+- Fixed bug where screen freezes while playing likely due to assets loading
 
 # v0.1.1
 
