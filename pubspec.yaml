@@ -8,14 +8,16 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  flame: 1.12.0
-  flame_audio: 2.1.5
+  equatable: ^2.0.5
+  flame: ^1.13.1
+  flame_audio: ^2.1.6
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.3
 
 dev_dependencies:
   flame_lint: 1.1.2
-  flame_test: 1.15.1
+  flame_test: ^1.15.2
   flutter_test:
     sdk: flutter
   integration_test:
@@ -26,8 +28,9 @@ flutter:
 
   assets:
     - assets/audio/
-    - assets/images/
-    - assets/images/fire_truck/
+    - assets/images/fire/
+    - assets/images/fire_engine/
+    - assets/font/
 
   fonts:
     - family: PressStart2P

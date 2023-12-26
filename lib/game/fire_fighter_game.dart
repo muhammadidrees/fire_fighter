@@ -2,18 +2,24 @@ part of 'game.dart';
 
 class FireFighterGame extends FlameGame
     with TapDetector, HasCollisionDetection {
-  FireFighterGame()
-      : super(
+  FireFighterGame(
+    AudioCache audioCache,
+    Images images,
+  )   : bgm = Bgm(audioCache: audioCache),
+        super(
           camera: CameraComponent.withFixedResolution(
             width: kGameWidth,
             height: kGameHeight,
           ),
-        );
+        ) {
+    this.images = images;
+  }
 
   final gameStateManager = GameStateManager();
+
   late FireEngine fireEngine;
 
-  AudioPlayer? backgroundMusic;
+  final Bgm bgm;
 
   int noOfFullGrownFires = 0;
   late TextComponent score;
@@ -140,11 +146,11 @@ class FireFighterGame extends FlameGame
 
     gameStateManager.state = GameState.playing;
 
-    if (backgroundMusic?.state != PlayerState.playing) {
-      backgroundMusic = await FlameAudio.loop('background_music.mp3');
-    } else {
-      backgroundMusic?.seek(Duration.zero);
+    if (bgm.isPlaying) {
+      bgm.stop();
     }
+
+    bgm.play(Assets.audio.background);
   }
 
   @override
